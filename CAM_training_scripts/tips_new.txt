@@ -1,0 +1,67 @@
+Constants:
+1: 3.0
+2: 2.0
+3: 4.0
+4: 3.1
+5: 2.5
+6: 2.8
+7: 2.9
+
+for 64x32 low res:
+control: 2000-2050, preindustrial
+2xCO2: 2045-2080, IC is control 2045
+
+SRM: 30, 2045-2080, IC is control 2045
+SRM2: 20, ...
+SRM3: 40, ...
+
+task1: IC is control 2050, double CO2 + start SRM 
+ref1: no RL but SRM constant 30
+ref2: no RL & no SRM
+需要的数据：
+TS_control, PminusE control
+TS_2xCO2, PminusE 2xCO2
+
+CAM_tsk1_env1: tsk1, TS & PminusE, rwd equal weight
+SRM30_tsk1_low_res1: ref1 for tsk 1, rwd = -123
+SRM_RL_CAM_low_res4: LearnRate = 0.008 ... success!
+
+high_res:
+SRM_RL_CAM_low_res5: LearnRate = 0.001 ... success!
+SRM_RL_CAM_low_res1: LearnRate = 0.0055
+SRM_RL_CAM_low_res3: LearnRate = 0.0045
+SRM_RL_CAM_low_res8: LearnRate = 0.0015
+
+
+task2: IC is 2xCO2 2050, start SRM
+ref1: no RL but SRM constant 30
+ref2: no RL but SRM constant 50
+ref3: no RL & no SRM
+需要的数据：
+TS_control, PminusE control
+TS_2xCO2, PminusE 2xCO2
+TS_initial, PminusE initial
+
+CAM_tsk2_env1: tsk2, TS & PminusE, rwd equal weight
+SRM30_tsk2_low_res1: ref1 for tsk 2, rwd = -180
+SRM50_tsk2_low_res1: ref2 for tsk 2
+SRM_RL_CAM_low_res7: LearnRate = 0.001 ... success!
+
+
+task3: same as task1, but regional geoengineering (tropics -30--+30)
+ref1: no RL but SRM constant 30
+CAM_tsk3_env1: tsk3, same as for tsk1, but only calculate tropics in reward
+SRM30_tsk3_low_res1: ref1 for tsk 3, rwd = -113
+SRM_RL_CAM_low_res2: LearnRate = 0.0055 ... success!
+
+
+task4: same as task2, but regional geoengineering (tropics -30--+30)
+ref1: no RL but SRM constant 30
+CAM_tsk2_env2: tsk4, same as for tsk2, but only calculate tropics temperature in reward
+SRM30_tsk2_low_res1: ref1 for tsk 4, rwd = -162
+SRM_RL_CAM_low_res6: LearnRate = 0.0055 ... success!
+
+
+
+
+想法：multiple input layer过卷积时是否需要先无量纲化？

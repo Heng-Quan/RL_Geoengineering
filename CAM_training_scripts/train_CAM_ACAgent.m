@@ -3,7 +3,7 @@ clear,clc,close all
 
 load('EpisodeData.mat')
 
-for i = 1:15
+for i = 1:40
     rng(0);
     trainingStats = train(agent,env,trainOpts);
     Episode = Episode + 1;
